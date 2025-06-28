@@ -1,0 +1,19 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug NestJS App",
+      "type": "node",
+      "request": "launch",
+      "args": ["${workspaceFolder}/src/main.ts"],
+      "runtimeArgs": ["--nolazy", "-r", "ts-node/register"],
+      "sourceMaps": true,
+      "cwd": "${workspaceFolder}",
+      "protocol": "inspector",
+      "env": {
+        "TS_NODE_PROJECT": "tsconfig.json"
+      },
+      "skipFiles": ["<node_internals>/**"]
+    }
+  ]
+}
