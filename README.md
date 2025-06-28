@@ -1,29 +1,10 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
-
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+# Companies API
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+IT Patagonia challenge.
+
+This project manages company registrations (PyME and Corporate types), and exposes endpoints to retrieve companies that have recently joined or made transfers in the last 30 days.
 
 ## Project setup
 
@@ -40,8 +21,6 @@ $ npm run start
 # watch mode
 $ npm run start:dev
 
-# production mode
-$ npm run start:prod
 ```
 
 ## Run tests
@@ -57,42 +36,216 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Deployment
+## API Overwiew
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+## Base URL
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+http://localhost:3000
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+## Endpoints
+
+## POST /companies
+
 ```
+Payload for PyME company:
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+{
+  "name": "TEST Pyme 219 SA",
+  "type": "pyme",
+  "joinedAt": "2025-06-06T14:30:00.000Z",
+  "pymeCode": "PYM-12345",
+  "transfers": [
+    {
+      "amount": 15000,
+      "date": "2025-06-15T10:00:00.000Z"
+    },
+    {
+      "amount": 22000,
+      "date": "2025-06-10T14:30:00.000Z"
+    }
+  ]
+}
 
-## Resources
+Payload for Corporate company:
 
-Check out a few resources that may come in handy when working with NestJS:
+{
+  "name": "Tech Corp",
+  "type": "corporate",
+  "joinedAt": "2025-06-01T12:00:00.000Z",
+  "headquarters": "USA",
+  "transfers": [
+    {
+      "amount": 50000,
+      "date": "2025-06-20T14:00:00.000Z"
+    }
+  ]
+}
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+Response:
 
-## Support
+{
+  "id": "generated-uuid"
+}
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```
+## GET /companies/joined-last-month
+Returns all companies registered within the last 30 days
+## GET /companies/with-transfers-last-month
+Returns companies that made at least one transfer in the last 30 days
 
-## Stay in touch
+## Validation Rules
+Type must be either "pyme" or "corporate".
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+If type === "pyme", pymeCode is required.
 
-## License
+If type === "corporate", headquarters is required.
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+transfers is optional but must be an array if provided.
+
+Each transfer's date must also be a valid ISO date string.
+
+## Tips
+Use a REST client like Postman.
+
+Set the header Content-Type: application/json.
+
+Always send dates in ISO 8601 format.
+
+## AWS Lambda 
+```
+Input:
+{
+  "name": "Empresa Pyme Lambda",
+  "type": "pyme", // o "corporate"
+  "joinedAt": "2025-06-06T14:30:00.000Z",
+  "pymeCode": "PYM-54321",           // requerido si type = "pyme"
+  "headquarters": "Buenos Aires",    // requerido si type = "corporate"
+  "transfers": [
+    {
+      "amount": 15000,
+      "date": "2025-06-15T10:00:00.000Z"
+    }
+  ]
+}
+
+Output:
+{
+  "status": "success",
+  "message": "Company registered successfully",
+  "companyId": "uuid-generated"
+}
+or
+{
+  "status": "error",
+  "message": "Validation failed: pymeCode is required for pyme companies"
+}
+
+CODE:
+
+import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
+import { v4 as uuidv4 } from 'uuid';
+
+// Types for quick validation
+interface Transfer {
+  amount: number;
+  date: string;
+}
+
+interface CompanyInput {
+  name: string;
+  type: 'pyme' | 'corporate';
+  joinedAt: string;
+  pymeCode?: string;
+  headquarters?: string;
+  transfers?: Transfer[];
+}
+
+// Simple function to validate the input data
+function validateCompany(input: CompanyInput): string | null {
+  if (!input.name) return 'Name is required';
+  if (input.type !== 'pyme' && input.type !== 'corporate') return 'Type must be "pyme" or "corporate"';
+  if (!input.joinedAt || isNaN(Date.parse(input.joinedAt))) return 'Valid joinedAt date is required';
+  if (input.type === 'pyme' && !input.pymeCode) return 'pymeCode is required for pyme companies';
+  if (input.type === 'corporate' && !input.headquarters) return 'headquarters is required for corporate companies';
+  if (input.transfers) {
+    for (const t of input.transfers) {
+      if (typeof t.amount !== 'number' || t.amount <= 0) return 'Each transfer must have a positive amount';
+      if (!t.date || isNaN(Date.parse(t.date))) return 'Each transfer must have a valid date';
+    }
+  }
+  return null;
+}
+
+// Simulated storage function (replace with real integration e.g. DynamoDB)
+async function saveCompanyToDB(company: any): Promise<void> {
+  // Here you would implement the logic to save the company to an AWS database (DynamoDB, RDS, etc.)
+  // For now, we simulate a successful save with a delay
+  return new Promise((resolve) => setTimeout(resolve, 100));
+}
+
+export const handler = async (
+  event: APIGatewayProxyEvent,
+): Promise<APIGatewayProxyResult> => {
+  try {
+    if (!event.body) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ status: 'error', message: 'Missing request body' }),
+      };
+    }
+
+    const input: CompanyInput = JSON.parse(event.body);
+
+    // Validate input data
+    const validationError = validateCompany(input);
+    if (validationError) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ status: 'error', message: `Validation failed: ${validationError}` }),
+      };
+    }
+
+    // Build the company object to store
+    const companyToSave = {
+      id: uuidv4(),
+      name: input.name,
+      type: input.type,
+      joinedAt: new Date(input.joinedAt).toISOString(),
+      pymeCode: input.pymeCode,
+      headquarters: input.headquarters,
+      transfers: input.transfers?.map(t => ({
+        id: uuidv4(),
+        amount: t.amount,
+        date: new Date(t.date).toISOString(),
+      })) || [],
+    };
+
+    // Save company to DB
+    await saveCompanyToDB(companyToSave);
+
+    // Successful response
+    return {
+      statusCode: 201,
+      body: JSON.stringify({
+        status: 'success',
+        message: 'Company registered successfully',
+        companyId: companyToSave.id,
+      }),
+    };
+
+  } catch (error) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ status: 'error', message: 'Internal server error' }),
+    };
+  }
+};
+
+
+
+```
+It can be called directly from a front-end, or the backend.
+
+Basic validation is done inside the Lambda to ensure the data is correct before saving it.
+
+Data can be stored in AWS services like DynamoDB or RDS, depending on your architecture.
